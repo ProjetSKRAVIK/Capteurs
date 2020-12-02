@@ -1,45 +1,42 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
-// Choose two Arduino pins to use for software serial
+// On choisit 2 pins
 int RXPin = 2;
 int TXPin = 3;
 
 int GPSBaud = 9600;
 
-// Create a TinyGPS++ object
 TinyGPSPlus gps;
 
-// Create a software serial port called "gpsSerial"
+// On crée un Software serial pour communiquer
 SoftwareSerial gpsSerial(RXPin, TXPin);
 
 void setup()
 {
-  // Start the Arduino hardware serial port at 9600 baud
   Serial.begin(9600);
-
-  // Start the software serial port at the GPS's default baud
   gpsSerial.begin(GPSBaud);
 }
 
 void loop()
 {
-  // This sketch displays information every time a new sentence is correctly encoded.
+  // On affiche les données dès qu'elles sont reçues
   while (gpsSerial.available() > 0)
     if (gps.encode(gpsSerial.read()))
       displayInfo();
 
-  // If 5000 milliseconds pass and there are no characters coming in
-  // over the software serial port, show a "No GPS detected" error
+  // Si on ne reçoit rien pendant 5 secondes, le GPS ne fonctionne pas
   if (millis() > 5000 && gps.charsProcessed() < 10)
   {
-    Serial.println("No GPS detected");
+    Serial.println("Erreur, pas de GPS detecté");
     while(true);
   }
 }
 
 void displayInfo()
 {
+  
+  //On récupère les coordonnées
   if (gps.location.isValid())
   {
     Serial.print("Latitude: ");
@@ -51,9 +48,10 @@ void displayInfo()
   }
   else
   {
-    Serial.println("Location: Not Available");
+    Serial.println("Coordonnées non disponibles");
   }
   
+  //On récupère la date
   Serial.print("Date: ");
   if (gps.date.isValid())
   {
@@ -65,10 +63,11 @@ void displayInfo()
   }
   else
   {
-    Serial.println("Not Available");
+    Serial.println("Date non disponible");
   }
 
-  Serial.print("Time: ");
+  //On récupère l'heure
+  Serial.print("Heure: ");
   if (gps.time.isValid())
   {
     if (gps.time.hour() < 10) Serial.print(F("0"));
@@ -85,7 +84,7 @@ void displayInfo()
   }
   else
   {
-    Serial.println("Not Available");
+    Serial.println("Heure non disponible");
   }
 
   Serial.println();
