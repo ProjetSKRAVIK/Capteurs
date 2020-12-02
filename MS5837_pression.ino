@@ -47,9 +47,7 @@ void setup() {
   
   Wire.begin();
 
-  // Initialize pressure sensor
-  // Returns true if initialization was successful
-  // We can't continue with the rest of the program unless we can initialize the sensor
+  // Inititalisation du capteur de pression et verification des connections
   while (!sensor.init()) {
     Serial.println("Init failed!");
     Serial.println("Are SDA/SCL connected correctly?");
@@ -59,11 +57,12 @@ void setup() {
   }
   
   sensor.setModel(MS5837::MS5837_30BA);
-  sensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
+ //On donne la densité du fluide dans lequel on plonge la sonde
+  sensor.setFluidDensity(997); // kg/m^3 (eau douce, 1029 eau de mer)
 }
 
 void loop() {
-  // Update pressure and temperature readings
+  // On lit la pression, la temperature et la profondeur
   sensor.read();
 
   Serial.print("Pressure: "); 
