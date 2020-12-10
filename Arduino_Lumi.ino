@@ -22,7 +22,7 @@ int transmitterId;
 
 RF24 radio(9, 10);
 Adafruit_TSL2591 tsl = Adafruit_TSL2591(2591); //On définit un nombre pour identifier le capteur
-const uint64_t pipe = 0xE8E8F0F0E1LL;
+const uint64_t pipe = 0xF0F0F0F0D2LL;
 
 void configureSensor(void)
 {
@@ -101,7 +101,7 @@ void setup() {
 void loop() {
 
   radio.powerUp();
-  lumi = 100000+advancedRead(); //On code l'id de notre arduino (1) dans la luminosité car lux<88000
+  lumi = advancedRead(); 
   
   radio.write(&lumi, sizeof(lumi));
   delay(1000);
