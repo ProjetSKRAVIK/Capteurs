@@ -10,7 +10,7 @@ DallasTemperature sensors(&oneWire);
 #include "nRF24L01.h"
 
 #include "RF24.h"
-const uint64_t pipe = 0xE8E7F0F0E1LL;
+const uint64_t pipe = 0xF0F0F0F0E2LL;
 
 //SCK -> 13
 //MISO -> 12
