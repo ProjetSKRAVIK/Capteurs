@@ -45,7 +45,7 @@ RF24 radio(9, 10);
 MS5837 sensor;
 
 
-const uint64_t pipe = 0xE8E8F0F0E1LL;
+const uint64_t pipe = 0xF0F0F0F0E1LL;
 
 
 void setup() {
@@ -72,7 +72,7 @@ void loop() {
   // On lit la pression, la temperature et la profondeur
   sensor.read();
 
-  pres = 200000 + sensor.pressure(); //On code l'id de notre arduino (2) dans la luminosité car pression<30000mPa
+  pres = sensor.pressure();
 
   radio.write(&pres, sizeof(pres));
 
